@@ -84,6 +84,7 @@ export function useStore(userId) {
         .from('app_data')
         .upsert({ user_id: userId, data: newState, updated_at: new Date().toISOString() },
                  { onConflict: 'user_id' })
+        .then()
     }, 600)
   }
 
