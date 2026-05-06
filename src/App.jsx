@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from './lib/supabase'
 import { useStore, consecutiveAbsences } from './useStore'
 import HomeScreen from './screens/HomeScreen'
 import GroupScreen from './screens/GroupScreen'
@@ -7,10 +8,41 @@ import AlertsScreen from './screens/AlertsScreen'
 import StudentHistoryScreen from './screens/StudentHistoryScreen'
 import SessionHistoryScreen from './screens/SessionHistoryScreen'
 import BroadcastScreen from './screens/BroadcastScreen'
+import LoginScreen from './screens/LoginScreen'
 import './index.css'
 
 export default function App() {
-  const store = useStore()
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null)
+      setAuthLoading(false)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (authLoading) return (
+    <div style={{
+      minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center',
+      flexDirection:'column', gap:16, color:'#888'
+    }}>
+      <div style={{fontSize:40}}>🥋</div>
+      <div style={{fontSize:14}}>טוען...</div>
+    </div>
+  )
+
+  if (!user) return <LoginScreen />
+
+  return <AppContent user={user} />
+}
+
+function AppContent({ user }) {
+  const store = useStore(user.id)
   const [screen, setScreen] = useState('home')
   const [slideDir, setSlideDir] = useState('forward')
   const [currentGroupId, setCurrentGroupId] = useState(null)
@@ -50,6 +82,10 @@ export default function App() {
     go('attendanceFromHistory')
   }
 
+  async function handleLogout() {
+    await supabase.auth.signOut()
+  }
+
   const currentGroup = store.state.groups.find(g => g.id === currentGroupId)
   const currentStudent = currentGroup?.students.find(s => s.id === currentStudentId)
 
@@ -59,6 +95,16 @@ export default function App() {
     ).length, 0)
 
   const isMain = screen === 'home' || screen === 'alerts' || screen === 'broadcast'
+
+  if (store.loading) return (
+    <div style={{
+      minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center',
+      flexDirection:'column', gap:16, color:'#888'
+    }}>
+      <div style={{fontSize:40}}>🥋</div>
+      <div style={{fontSize:14}}>טוען נתונים...</div>
+    </div>
+  )
 
   return (
     <div style={{paddingTop: isMain ? 60 : 0}}>
@@ -71,6 +117,7 @@ export default function App() {
             store={store}
             onOpenGroup={openGroup}
             onQuickAttendance={openQuickAttendance}
+            onLogout={handleLogout}
           />
         )}
 

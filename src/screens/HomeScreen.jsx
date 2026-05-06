@@ -21,7 +21,7 @@ function lastSessionLabel(attendanceKeys, groupId) {
   return `אימון אחרון: לפני ${diff} ימים`
 }
 
-export default function HomeScreen({ store, onOpenGroup, onQuickAttendance }) {
+export default function HomeScreen({ store, onOpenGroup, onQuickAttendance, onLogout }) {
   const { state, update, importState, COLORS } = store
   const [showAddForm, setShowAddForm] = useState(false)
   const [confirmDeleteId, setConfirmDeleteId] = useState(null)
@@ -89,6 +89,7 @@ export default function HomeScreen({ store, onOpenGroup, onQuickAttendance }) {
         <button className="topbar-btn" title="ייבא גיבוי" onClick={() => fileInputRef.current.click()}>📂</button>
         <button className="topbar-btn" title="ייצא גיבוי" onClick={exportData}>💾</button>
         <button className="topbar-btn" onClick={() => setShowAddForm(v => !v)}>+</button>
+        <button className="topbar-btn" title="יציאה" onClick={onLogout} style={{fontSize:16}}>🚪</button>
       </div>
 
       <input

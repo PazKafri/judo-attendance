@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { supabase } from './lib/supabase'
 
 const COLORS = ['#378ADD','#1D9E75','#D85A30','#7F77DD','#D4537E','#BA7517','#E24B4A','#639922']
 
@@ -26,7 +27,7 @@ function migrate(state) {
   return state
 }
 
-function loadState() {
+function loadLocalState() {
   try {
     const s = localStorage.getItem('judo_v1')
     if (s) return migrate(JSON.parse(s))
@@ -47,24 +48,59 @@ export function consecutiveAbsences(state, gid, sid) {
   return streak
 }
 
-export function useStore() {
-  const [state, setState] = useState(loadState)
+export function useStore(userId) {
+  const [state, setState] = useState(loadLocalState)
+  const [loading, setLoading] = useState(true)
+  const saveTimer = useRef(null)
 
+  // Load from Supabase on mount
+  useEffect(() => {
+    if (!userId) { setLoading(false); return }
+    supabase
+      .from('app_data')
+      .select('data')
+      .eq('user_id', userId)
+      .single()
+      .then(({ data }) => {
+        if (data?.data) {
+          const migrated = migrate(JSON.parse(JSON.stringify(data.data)))
+          setState(migrated)
+          localStorage.setItem('judo_v1', JSON.stringify(migrated))
+        }
+        setLoading(false)
+      })
+  }, [userId])
+
+  // Save to localStorage on every change
   useEffect(() => {
     localStorage.setItem('judo_v1', JSON.stringify(state))
   }, [state])
+
+  function saveToSupabase(newState) {
+    if (!userId) return
+    if (saveTimer.current) clearTimeout(saveTimer.current)
+    saveTimer.current = setTimeout(() => {
+      supabase
+        .from('app_data')
+        .upsert({ user_id: userId, data: newState, updated_at: new Date().toISOString() },
+                 { onConflict: 'user_id' })
+    }, 600)
+  }
 
   function update(fn) {
     setState(s => {
       const copy = JSON.parse(JSON.stringify(s))
       fn(copy)
+      saveToSupabase(copy)
       return copy
     })
   }
 
   function importState(newState) {
-    setState(migrate(JSON.parse(JSON.stringify(newState))))
+    const migrated = migrate(JSON.parse(JSON.stringify(newState)))
+    setState(migrated)
+    saveToSupabase(migrated)
   }
 
-  return { state, update, importState, COLORS }
+  return { state, update, importState, COLORS, loading }
 }
