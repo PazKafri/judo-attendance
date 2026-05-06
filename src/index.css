@@ -1,0 +1,131 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #1a1a1a;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  direction: rtl;
+}
+.topbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-bottom: 1px solid #e8e8e8;
+  background: #fff; position: sticky; top: 0; z-index: 10;
+}
+.topbar-title { font-size: 17px; font-weight: 600; flex: 1; }
+.topbar-btn { background: none; border: none; cursor: pointer; font-size: 22px; color: #555; padding: 0 4px; }
+.back-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: #666; padding: 2px 8px 2px 0; }
+.location-header {
+  padding: 10px 16px 5px; font-size: 11px; font-weight: 700;
+  color: #999; letter-spacing: 0.08em; background: #f8f8f8;
+  border-bottom: 1px solid #f0f0f0; text-transform: uppercase;
+}
+.group-row-wrap { border-bottom: 1px solid #f0f0f0; }
+.group-row { display: flex; align-items: stretch; }
+.del-side {
+  background: none; border: none; border-radius: 8px;
+  cursor: pointer; padding: 4px 8px; color: #ea4335; font-size: 17px; flex-shrink: 0;
+}
+.del-side:active { background: #fce8e6; }
+.group-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer; flex: 1; background: #fff;
+}
+.group-card:hover { background: #fafafa; }
+.group-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.group-name { font-size: 15px; font-weight: 600; }
+.group-meta { font-size: 13px; color: #888; margin-top: 3px; }
+.badge { font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+.badge-done       { background: #e6f4ea; color: #2d7a3a; }
+.badge-next       { background: #f0f0f0; color: #666; }
+.badge-alert      { background: #fff3cd; color: #856404; }
+.badge-unpaid     { background: #fff8e1; color: #b8860b; border: 1px solid #ffe082; }
+.badge-today-btn  {
+  background: #e8f0fe; color: #1a73e8; border: 1px solid #c5d8fd;
+  font-size: 12px; padding: 3px 10px; border-radius: 20px;
+  font-weight: 600; white-space: nowrap; cursor: pointer; font-family: inherit;
+}
+.badge-today-btn:active { background: #1a73e8; color: #fff; }
+.inline-form {
+  border: 1px solid #e8e8e8; border-radius: 12px;
+  margin: 12px 16px; padding: 16px; background: #fafafa;
+}
+.inline-form input {
+  width: 100%; margin-bottom: 10px; padding: 10px 12px;
+  border-radius: 10px; border: 1px solid #e0e0e0;
+  background: #fff; font-size: 15px; font-family: inherit;
+}
+.inline-form input:focus { outline: none; border-color: #1a73e8; }
+.form-label { font-size: 12px; color: #888; margin-bottom: 8px; }
+.days-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.day-chip {
+  padding: 6px 13px; border-radius: 20px; border: 1px solid #e0e0e0;
+  background: #fff; cursor: pointer; font-size: 13px; color: #555; font-family: inherit;
+}
+.day-chip.selected { background: #e8f0fe; border-color: #1a73e8; color: #1a73e8; font-weight: 600; }
+.form-btns { display: flex; gap: 8px; }
+.form-btns button {
+  flex: 1; padding: 10px; border-radius: 10px; font-size: 14px;
+  cursor: pointer; border: 1px solid #e0e0e0; background: #fff; font-family: inherit;
+}
+.btn-confirm { background: #1a1a1a !important; color: #fff !important; border-color: transparent !important; }
+.btn-del     { background: #ea4335 !important; color: #fff !important; border-color: transparent !important; }
+.confirm-box {
+  margin: 4px 16px 8px; padding: 14px; border-radius: 10px;
+  background: #fce8e6; border: 1px solid #f5c6c2;
+}
+.confirm-box p { font-size: 14px; color: #c5221f; margin-bottom: 12px; font-weight: 500; }
+.group-actions { display: flex; gap: 8px; margin: 12px 16px; }
+.group-actions button {
+  flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #e0e0e0;
+  background: #fff; cursor: pointer; font-size: 13px; font-family: inherit;
+}
+.section-label {
+  font-size: 12px; color: #aaa; padding: 12px 16px 6px;
+  letter-spacing: 0.05em; background: #fafafa; border-bottom: 1px solid #f0f0f0;
+}
+.student-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-bottom: 1px solid #f0f0f0; background: #fff;
+}
+.student-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: #e8f0fe;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: #1a73e8; flex-shrink: 0;
+}
+.student-name { font-size: 15px; flex: 1; }
+.student-streak { font-size: 12px; color: #e67700; font-weight: 500; margin-top: 2px; }
+.icon-btn { background: none; border: none; cursor: pointer; padding: 6px 8px; font-size: 16px; }
+.tick-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid #ddd;
+  background: none; cursor: pointer; font-size: 18px; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s;
+}
+.tick-btn.present { background: #e6f4ea; border-color: #34a853; color: #2d7a3a; }
+.tick-btn.absent  { background: #fce8e6; border-color: #ea4335; color: #c5221f; }
+.save-bar {
+  padding: 16px; border-top: 1px solid #e8e8e8;
+  background: #fff; position: sticky; bottom: 0;
+}
+.save-btn {
+  width: 100%; padding: 14px; border-radius: 12px; border: none;
+  background: #1a1a1a; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer;
+}
+.stats-card {
+  margin: 12px 16px; padding: 16px; border-radius: 12px;
+  border: 1px solid #e8e8e8; background: #fafafa;
+}
+.stats-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px;
+}
+.stats-row:last-child { border-bottom: none; }
+.stats-num { font-weight: 600; font-size: 15px; }
+.alert-row { background: #fff3cd; border-radius: 6px; padding: 6px 8px; margin: 2px -8px; }
+.no-items { padding: 40px 16px; text-align: center; color: #aaa; font-size: 14px; line-height: 1.8; }
+.notif-banner {
+  margin: 12px 16px 0; padding: 13px 15px; border-radius: 10px;
+  background: #fff3cd; border: 1px solid #ffc107; font-size: 13px;
+  color: #856404; font-weight: 500;
+}

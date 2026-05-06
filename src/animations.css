@@ -1,0 +1,79 @@
+/*
+ * animations.css — כל האנימציות של האפליקציה
+ *
+ * כל אנימציה ממוספרת ומופרדת בבלוק משלה.
+ * להסיר אנימציה: מחק את הבלוק המתאים כאן + שורה אחת ב-React (מצוין בכל בלוק).
+ * ====================================================================
+ */
+
+
+/* ====================================================================
+   אנימציה 1 — מעבר בין מסכים (הזזה)
+   להסיר: מחק בלוק זה + הסר className="screen-forward/screen-back" מ-App.jsx
+   ==================================================================== */
+@keyframes slideInRight {
+  from { transform: translateX(22px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-22px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+.screen-forward { animation: slideInRight 0.2s ease-out both; }
+.screen-back    { animation: slideInLeft  0.2s ease-out both; }
+
+
+/* ====================================================================
+   אנימציה 2 — כפתורי נוכחות (✓ / ✕) — קפיצה בלחיצה
+   להסיר: מחק בלוק זה + הסר state של poppedId + className tick-pop מ-AttendanceScreen.jsx
+   ==================================================================== */
+@keyframes tickPop {
+  0%   { transform: scale(1);    }
+  35%  { transform: scale(1.28); }
+  100% { transform: scale(1);    }
+}
+.tick-pop { animation: tickPop 0.18s ease-out; }
+
+
+/* ====================================================================
+   אנימציה 3 — כניסה מדורגת של פריטי רשימה
+   להסיר: מחק בלוק זה + הסר style={{animationDelay}} מ-HomeScreen.jsx ו-GroupScreen.jsx
+   ==================================================================== */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.group-row-wrap {
+  animation: fadeSlideUp 0.22s ease-out both;
+}
+.student-row-animated {
+  animation: fadeSlideUp 0.2s ease-out both;
+}
+
+
+/* ====================================================================
+   אנימציה 4 — דופק על תג ההתראות
+   להסיר: מחק בלוק זה + הסר className="alert-badge-pulse" מ-App.jsx
+   ==================================================================== */
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1);    }
+  50%       { transform: scale(1.18); }
+}
+.alert-badge-pulse {
+  animation: badgePulse 1.8s ease-in-out infinite;
+  display: inline-flex;
+}
+
+
+/* ====================================================================
+   אנימציה 5 — קו הזזה בין כרטיסיות התפריט
+   להסיר: מחק בלוק זה + הסר את ה-div.tab-underline מ-App.jsx
+   ==================================================================== */
+.tab-underline {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 33.33%;
+  border-radius: 2px 2px 0 0;
+  transition: right 0.2s ease-out, background 0.2s;
+}
